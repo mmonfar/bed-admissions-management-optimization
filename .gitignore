@@ -1,0 +1,28 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+.pytest_cache/
+
+# Environment / secrets
+.env
+.streamlit/
+
+# Remotion video (source, assets, and renders)
+remotion-video/
+
+# Data
+data/raw/*
+!data/raw/.gitkeep
+
+# Brand
+brand_style.css
+
+# Claude Code
+CLAUDE.md
+PROJECT.md
+NSGA-II_Ward_Assignment_Approach.md
+.claude/

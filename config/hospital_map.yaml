@@ -1,0 +1,6 @@
+wards:
+  - {id: "4A", specialty: "Cardiology", floor: 4, wing: "North"}
+  - {id: "4B", specialty: "Neurology", floor: 4, wing: "South"}
+  - {id: "5A", specialty: "General Medicine", floor: 5, wing: "North"}
+  - {id: "5B", specialty: "Orthopedics", floor: 5, wing: "South"}
+  - {id: "6A", specialty: "Oncology", floor: 6, wing: "North"}

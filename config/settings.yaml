@@ -1,0 +1,8 @@
+optimization:
+  penalties:
+    same_floor: 1
+    diff_floor: 5
+    diff_wing: 10
+  displacement:
+    cost_per_cmi_point: 2.5
+    max_transfers_default: 5
