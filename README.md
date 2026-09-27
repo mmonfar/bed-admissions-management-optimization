@@ -139,3 +139,11 @@ Runtime overrides are available from the dashboard sidebar (aggression multiplie
 ## Brand
 
 Anthracite `#36454F` / Teal `#008080` / Inter (body) / JetBrains Mono (code). Defined in `brand_style.css` and mirrored in `src/ui/dashboard.py` and `remotion-video/src/constants.ts`.
+
+## Licence
+
+Code is licensed under **AGPL-3.0-or-later** (see [`LICENSE`](LICENSE)); a commercial licence is available on request from the author via [LinkedIn](https://www.linkedin.com/in/martin-monteagudo-farina/). Non-code content is under [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/). Details in [`LICENSING.md`](LICENSING.md).
+
+## Disclaimer
+
+Research and demonstration software. Not a medical device and not intended for clinical decision-making, diagnosis or treatment. Provided "as is", without warranty of any kind; the author accepts no liability for any use. Uses synthetic data only.

@@ -1026,3 +1026,9 @@ with st.expander("Export Action Plan"):
         st.markdown(to_markdown(plan))
     with tab_json:
         st.code(to_json(plan), language="json")
+
+st.caption(
+    "Research and demonstration software. Not a medical device and not intended for "
+    "clinical decision-making, diagnosis or treatment. Provided \"as is\", without warranty "
+    "of any kind; the author accepts no liability for any use. Uses synthetic data only."
+)
