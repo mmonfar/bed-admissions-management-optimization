@@ -32,7 +32,7 @@ _C = {
     "text":     "#E0E4F0",
     "accent":   "#008080",  # brand teal
     "move":     "#4A9EFF",
-    "hold":     "#008080",  # brand teal
+    "hold":     "#20B2AA",  # lighter brand teal (4.5:1 text on the dark page)
     "alert":    "#FF4B4B",
     "pareto":   "#4D5375",
     "selected": "#20B2AA",  # lighter teal
@@ -69,7 +69,7 @@ _OBJ = {
 st.set_page_config(
     page_title="Clinical Bed Command Center",
     layout="wide",
-    initial_sidebar_state="expanded",
+    initial_sidebar_state="auto",
 )
 
 _muted = _C["muted"]
@@ -86,7 +86,7 @@ st.markdown(
       /* brand: Anthracite #36454F / Teal #008080 / Inter */
       /* Apply font via inheritance only -- wildcard would clobber Material Icons ligatures */
       .stApp {{ font-family: 'Inter', sans-serif; background-color: {_bg}; }}
-      code {{ font-family: "Courier New", monospace; font-size: 0.82em; }}
+      code {{ font-family: "Courier New", monospace; font-size:0.875em; }}
 
       .metric-box {{
         background: {_surface}; border: 1px solid {_border};
@@ -94,11 +94,11 @@ st.markdown(
         cursor: default;
       }}
       .metric-label {{
-        color: {_muted}; font-size: 0.72em;
+        color: {_muted}; font-size:0.875em;
         text-transform: uppercase; letter-spacing: 0.08em;
       }}
       .metric-value {{ color: {_text}; font-size: 1.6em; font-weight: 600; }}
-      .metric-note  {{ color: {_muted}; font-size: 0.70em; margin-top: 2px; }}
+      .metric-note  {{ color: {_muted}; font-size:0.875em; margin-top: 2px; }}
       .grade-badge {{
         font-size: 2.8em; font-weight: 800; line-height: 1;
         text-align: center; padding: 8px 0;
@@ -318,7 +318,7 @@ def _style_action_table(df: pd.DataFrame) -> pd.io.formats.style.Styler:
     return (
         df.style
         .map(_type_color, subset=["Type"])
-        .set_properties(**{"font-size": "0.82em"})
+        .set_properties(**{"font-size": "0.875em"})
     )
 
 
@@ -362,9 +362,18 @@ def _metric_html(
 
 st.markdown(
     f"<h2 style='color:{_C['text']}; margin-bottom:0;'>Clinical Bed Command Center</h2>"
-    f"<p style='color:{_C['muted']}; margin-top:4px; font-size:0.85em;'>"
+    f"<p style='color:{_C['muted']}; margin-top:4px; font-size:0.875em;'>"
     "NSGA-II multi-objective optimisation &mdash; "
     f"{len(_patients)} patients &nbsp;/&nbsp; {len(_beds)} beds</p>",
+    unsafe_allow_html=True,
+)
+st.markdown(
+    f"<p style='color:{_C['muted']}; font-size:0.875em; margin:0 0 4px;'>"
+    "Demonstration tool on synthetic data. Not a medical device.</p>"
+    f"<p style='color:{_C['text']}; font-size:1em; margin:0 0 8px;'>"
+    "<b>Step 1:</b> check the patients and beds, and set the controls on the left. "
+    "<b>Step 2:</b> read the suggested moves below. "
+    "Press <b>Run optimisation</b> (left) after you change a control.</p>",
     unsafe_allow_html=True,
 )
 
@@ -414,7 +423,7 @@ with st.sidebar:
         )
 
         ed_crisis: bool = st.toggle(
-            "ED Surge Mode",
+            "Emergency department surge mode",
             value=False,
             help=(
                 "Activates when the Emergency Department is at capacity. "
@@ -471,7 +480,7 @@ with st.sidebar:
                 ),
             )
             st.markdown(
-                f"<div style='color:{_C['muted']};font-size:0.75em;"
+                f"<div style='color:{_C['muted']};font-size:0.875em;"
                 "text-transform:uppercase;letter-spacing:0.06em;"
                 "margin:10px 0 4px;'>Discharge Forecast</div>",
                 unsafe_allow_html=True,
@@ -524,7 +533,7 @@ with st.sidebar:
             "Generations", options=[20, 50, 100, 200], value=100,
         )
         run_btn: bool = st.button(
-            "Re-run Optimisation", type="primary", use_container_width=True,
+            "Run optimisation", type="primary", use_container_width=True,
         )
 
     # ------------------------------------------------------------------
@@ -532,7 +541,7 @@ with st.sidebar:
     # ------------------------------------------------------------------
     with tab_logic:
         st.markdown(
-            f"<p style='color:{_C['muted']};font-size:0.72em;"
+            f"<p style='color:{_C['muted']};font-size:0.875em;"
             "text-transform:uppercase;letter-spacing:0.08em;"
             "margin:8px 0 10px;'>Clinical Logic Reference</p>",
             unsafe_allow_html=True,
@@ -551,12 +560,12 @@ with st.sidebar:
                 f"<div style='background:{_C['surface']};border:1px solid {_C['border']};"
                 f"border-left:3px solid {color};border-radius:0 6px 6px 0;"
                 f"padding:10px 12px;margin-bottom:10px;'>"
-                f"<div style='color:{color};font-size:0.78em;font-weight:700;"
+                f"<div style='color:{color};font-size:0.875em;font-weight:700;"
                 f"text-transform:uppercase;letter-spacing:0.06em;"
                 f"margin-bottom:6px;'>{label}</div>"
-                f"<div style='color:{_C['text']};font-size:0.78em;line-height:1.5;"
+                f"<div style='color:{_C['text']};font-size:0.875em;line-height:1.5;"
                 f"margin-bottom:8px;'>{description}</div>"
-                f"<table style='width:100%;font-size:0.74em;border-collapse:collapse;'>"
+                f"<table style='width:100%;font-size:0.875em;border-collapse:collapse;'>"
                 f"<tr>"
                 f"<td style='color:{_C['grade_a']};width:38%;padding:2px 4px 2px 0;"
                 f"vertical-align:top;font-weight:600;'>Best (0)</td>"
@@ -631,12 +640,12 @@ with st.sidebar:
         )
 
         st.markdown(
-            f"<div style='color:{_C['muted']};font-size:0.72em;"
+            f"<div style='color:{_C['muted']};font-size:0.875em;"
             f"border-top:1px solid {_C['border']};padding-top:8px;margin-top:4px;'>"
             "Penalty weights are configurable in "
             "<code>config/settings.yaml</code>. "
             "Aggression slider scales f1 penalties. "
-            "ED Surge Mode flattens them to 1 pt, "
+            "Emergency department surge mode flattens them to 1 pt, "
             "shifting optimisation priority to f2."
             "</div>",
             unsafe_allow_html=True,
@@ -734,7 +743,7 @@ grade, grade_desc, grade_color = _health_score(F[knee_idx], F)
 # ---------------------------------------------------------------------------
 
 st.markdown(
-    f"<p style='color:{_C['muted']};font-size:0.75em;"
+    f"<p style='color:{_C['muted']};font-size:0.875em;"
     "text-transform:uppercase;letter-spacing:0.1em;"
     "margin-bottom:6px;'>Live Capacity Dashboard</p>",
     unsafe_allow_html=True,
@@ -790,7 +799,7 @@ if surge_active:
 # Discharge forecast row -- only rendered when discharge data is entered
 if confirmed_discharges > 0 or estimated_discharges > 0:
     st.markdown(
-        f"<p style='color:{_C['muted']};font-size:0.75em;"
+        f"<p style='color:{_C['muted']};font-size:0.875em;"
         "text-transform:uppercase;letter-spacing:0.1em;"
         "margin:10px 0 4px;'>Discharge Forecast</p>",
         unsafe_allow_html=True,
@@ -898,7 +907,7 @@ with col_pareto:
 # ---------------------------------------------------------------------------
 
 st.markdown(
-    f"<p style='color:{_C['muted']}; font-size:0.8em; margin-bottom:4px;'>"
+    f"<p style='color:{_C['muted']}; font-size:0.875em; margin-bottom:4px;'>"
     f"Pareto front: {n_solutions} non-dominated solutions. "
     f"Gold marker = recommended (sol #{knee_idx}). "
     f"Cyan = selected.</p>",
@@ -965,7 +974,7 @@ st.markdown("<br>", unsafe_allow_html=True)
 
 st.markdown(
     f"<h4 style='color:{_C['text']}'>Action Plan "
-    f"<span style='color:{_C['muted']};font-size:0.7em;font-weight:400;'>"
+    f"<span style='color:{_C['muted']};font-size:0.875em;font-weight:400;'>"
     f"solution #{selected_idx}</span></h4>",
     unsafe_allow_html=True,
 )

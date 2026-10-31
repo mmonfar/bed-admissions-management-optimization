@@ -1,0 +1,12 @@
+# The dashboard is designed for a dark page. Without this, a light browser theme
+# makes the sidebar headings pale text on a pale background (unreadable).
+[theme]
+base = "dark"
+primaryColor = "#008080"
+backgroundColor = "#0E1117"
+secondaryBackgroundColor = "#1A2230"
+textColor = "#E0E4F0"
+font = "sans serif"
+
+[client]
+toolbarMode = "minimal"
