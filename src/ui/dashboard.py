@@ -422,7 +422,7 @@ with st.sidebar:
             ),
         )
 
-        ed_crisis: bool = st.toggle(
+        surge_mode: bool = st.toggle(
             "Emergency department surge mode",
             value=False,
             help=(
@@ -607,7 +607,7 @@ with st.sidebar:
                 description=(
                     "Count of primary (non-overflow) beds left unoccupied "
                     "in the optimal plan. Reflects the hospital's ability to "
-                    "accept new ED admissions without using overflow capacity."
+                    "accept new emergency department admissions without using overflow capacity."
                 ),
                 best_meaning="All primary beds occupied. Maximum intake capacity utilised.",
                 worst_val=str(_max_f2),
@@ -655,11 +655,11 @@ with st.sidebar:
 # Derive effective parameters
 # ---------------------------------------------------------------------------
 
-if ed_crisis:
+if surge_mode:
     effective_penalties: dict[str, int] = {k: 1 for k in BASE_PENALTIES}
     effective_cap: int = len(_patients)
     st.error(
-        "ED SURGE MODE ACTIVE -- Clinical Home penalties suppressed. "
+        "EMERGENCY DEPARTMENT SURGE MODE ACTIVE -- Clinical Home penalties suppressed. "
         "All transfers permitted. Capacity Throughput is the priority objective.",
     )
 else:
