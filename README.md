@@ -23,7 +23,7 @@ All three are minimized (lower = better).
 | ID | Dashboard Label | Definition |
 |----|-----------------|------------|
 | f1 | Clinical Home Alignment | Sum of radius penalties between each patient's assigned bed and their specialty anchor ward. Penalty ladder: same ward = 1 pt, different wing = 5 pt, different floor = 10 pt |
-| f2 | Capacity Throughput | Count of primary (non-overflow) beds left unoccupied. Minimizing this maximizes ED intake capacity |
+| f2 | Capacity Throughput | Count of primary (non-overflow) beds left unoccupied. Minimizing this maximizes emergency department intake capacity |
 | f3 | Nursing Workload Protection | CMI-weighted cost of patient transfers. Each move is scaled by Case Mix Index to reflect clinical complexity |
 
 Hard constraint: total moves <= transfer cap (default 5; adjustable at runtime).
@@ -106,7 +106,7 @@ wards:
   ...
 ```
 
-Runtime overrides are available from the dashboard sidebar (aggression multiplier, transfer cap slider, ED Surge Mode toggle).
+Runtime overrides are available from the dashboard sidebar (aggression multiplier, transfer cap slider, emergency department surge toggle).
 
 ---
 

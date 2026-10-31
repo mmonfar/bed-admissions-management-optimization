@@ -38,7 +38,7 @@ Statuses: `DONE` | `PARTIAL` | `MISSING` | `DRIFT` (implemented but disagrees wi
 | Streamlit command center | Renders Pareto front, action table, heatmap | DONE | |
 | Result caching | `@st.cache_data`; non-hashable args underscore-prefixed | DONE | |
 | Manual re-run override | "Re-run Optimisation" clears cache explicitly | DONE | |
-| Runtime overrides | Aggression multiplier, transfer cap slider, ED Surge toggle | DONE | |
+| Runtime overrides | Aggression multiplier, transfer cap slider, emergency department surge toggle | DONE | |
 
 ## 4. Configuration Surface
 
