@@ -1,3 +1,5 @@
+# Illustrative tuning weights for the demo. They are NOT taken from published
+# literature. Set your own values for your own setting. No source applies.
 optimization:
   penalties:
     same_floor: 1

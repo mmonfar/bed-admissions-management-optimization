@@ -85,6 +85,8 @@ npm run build      # Render to out/ClinicalFlow.mp4
 
 Edit `config/settings.yaml` to tune penalties and solver defaults without touching code.
 
+These numbers are illustrative demo weights. They do not come from published literature. Set your own values for your own setting.
+
 ```yaml
 optimization:
   penalties:

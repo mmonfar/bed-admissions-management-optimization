@@ -26,3 +26,8 @@ CLAUDE.md
 PROJECT.md
 NSGA-II_Ward_Assignment_Approach.md
 .claude/
+# --- Marketing (untracked by decision 2026-09-19) -----------------------------
+# The whole folder is excluded: drafts should not appear in a repo that might
+# be published. Superseded versions live in marketing/old/ because there is no
+# git history to fall back on. Nothing here is backed up.
+marketing/
