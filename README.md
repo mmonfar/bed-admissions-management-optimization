@@ -1,5 +1,11 @@
 # Bed Admissions Manager Optimization
 
+![Bed command centre dashboard on desktop, showing bed occupancy, a recommended plan, the ward heatmap and the trade-off chart](docs/screenshots/readme_desktop.png)
+
+![Bed command centre dashboard on a phone, showing the title and four capacity figures](docs/screenshots/readme_phone.png)
+
+Screenshot with synthetic data.
+
 NSGA-II multi-objective optimizer for hospital bed assignments. Returns a Pareto front of non-dominated solutions across three competing clinical objectives; the charge nurse selects the operating point that matches shift priorities.
 
 ---
