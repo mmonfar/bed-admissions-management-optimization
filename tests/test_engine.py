@@ -74,15 +74,16 @@ def test_front_respects_transfer_cap(result):
     assert (G <= 1e-9).all()
 
 
-@pytest.mark.xfail(
-    reason="Known defect: the repair step draws from the global NumPy random state, "
-    "so the same SolverConfig seed gives different fronts. Do not fix in this step.",
-    strict=False,
-)
 def test_fixed_seed_is_deterministic(problem, result):
     again = run_optimization(problem, SMALL_CFG)
     assert np.array_equal(np.atleast_2d(again.X), np.atleast_2d(result.X))
     assert np.allclose(np.atleast_2d(again.F), np.atleast_2d(result.F))
+
+
+def test_different_seed_can_give_different_front(problem, result):
+    other = run_optimization(problem, SolverConfig(pop_size=40, n_gen=15, seed=8))
+    X0, X1 = np.atleast_2d(result.X), np.atleast_2d(other.X)
+    assert X0.shape != X1.shape or not np.array_equal(X0, X1)
 
 
 def test_solver_config_defaults():

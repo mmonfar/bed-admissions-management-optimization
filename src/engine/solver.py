@@ -37,8 +37,12 @@ class NoDuplicateBedRepair(Repair):
         self,
         problem: WardAssignmentProblem,
         X: np.ndarray,
+        random_state: np.random.Generator | None = None,
         **kwargs,
     ) -> np.ndarray:
+        # pymoo 0.6.1 passes the run's seeded Generator (from minimize(seed=...)).
+        # Using it keeps the repair on the same seed as the rest of the run.
+        rng = random_state if random_state is not None else np.random.default_rng()
         X = np.round(X).astype(np.int32)
         n_pop, n_var = X.shape
         n_beds: int = problem.n_beds
@@ -60,7 +64,7 @@ class NoDuplicateBedRepair(Repair):
             unused: np.ndarray = np.setdiff1d(all_beds, row[keep_mask], assume_unique=True)
 
             # Sample without replacement from unused beds.
-            chosen_idx = np.random.choice(unused.size, size=dup_positions.size, replace=False)
+            chosen_idx = rng.choice(unused.size, size=dup_positions.size, replace=False)
             X[i, dup_positions] = unused[chosen_idx]
 
         return X
