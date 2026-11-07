@@ -4,6 +4,53 @@ Master spec-driven development contract. Full domain/architecture narrative live
 [PROJECT.md](../PROJECT.md) and [README.md](../README.md) — this file is the audit
 surface: requirement, acceptance criteria, and status.
 
+## Purpose
+
+Suggest which ward bed each patient should take, so that patients sit close to their
+specialty ward, primary-ward beds are used, and few patients are moved. A planner
+reads the suggestion; nothing moves a patient by itself.
+
+## Scope
+
+In scope: the NSGA-II engine (`src/engine/`), pseudonymisation and export helpers
+(`src/utils/`), the Streamlit dashboard (`src/ui/`), synthetic demo data.
+Out of scope: real patient data, clinical decisions, hospital system links.
+Synthetic data only. Not a medical device. Not for clinical decision-making.
+
+## Contract / interfaces
+
+- `src.engine.models`: `Patient`, `Bed`, `Wing`, `DisplacementStatus`.
+- `src.engine.problem.WardAssignmentProblem(patients, beds, anchor_map, penalties, cost_per_cmi, transfer_cap)`: 3 objectives (f1 clustering, f2 vacancy, f3 stability), 1 constraint (moves <= cap). Missing anchor or penalty key raises `KeyError`.
+- `src.engine.solver`: `SolverConfig(pop_size=100, n_gen=100, seed=42)`, `run_optimization(problem, cfg)` returns a pymoo `Result`.
+- `src.engine.directives`: `find_knee_point(F)`, `DirectiveGenerator(...).generate(result, solution_idx=None, move_cmi_threshold=0.5)` returns an `ActionPlan`; raises `ValueError` when there is no feasible solution.
+- `src.utils.sanitizer`: `pseudonymize`, `mask_string`, `sanitize_dict`.
+- `src.utils.exporters`: `to_json`, `to_markdown`.
+- `src.utils.mock_data.make_mock_scenario()`: 20 patients, 30 beds.
+- Run: `streamlit run src/ui/dashboard.py`.
+
+## Acceptance criteria
+
+1. Every Pareto solution assigns each patient a distinct bed and meets the transfer cap.
+2. Objectives match the hand-computed values in `docs/specs/objectives-and-constraint.md`.
+3. The knee point is the solution nearest the ideal point after min-max scaling.
+4. A higher MOVE threshold never gives more MOVE directives.
+5. Missing input (unknown specialty, missing penalty key, no feasible solution) raises an error and never returns a silent default.
+6. Identifiers pass through `pseudonymize`; exports contain no raw identifier.
+7. Known gap: the same seed does not give the same front (see Open Items). The test for it is marked `xfail`.
+
+## Tests
+
+Command: `.venv/Scripts/python.exe -m pytest tests` (run from the repo root).
+Files: `tests/test_engine.py` (engine, knee point, directives), `tests/test_utils.py` (privacy, validation, export).
+These are characterisation tests: they record what the code does now. No behaviour was changed to write them.
+Last run (7 Nov 2026): 26 passed, 1 xfailed, about 7 s.
+
+## Specs
+
+See `docs/specs/`.
+
+---
+
 Statuses: `DONE` | `PARTIAL` | `MISSING` | `DRIFT` (implemented but disagrees with spec).
 
 ---
@@ -59,7 +106,11 @@ Statuses: `DONE` | `PARTIAL` | `MISSING` | `DRIFT` (implemented but disagrees wi
 
 ## Open Items / Ambiguities
 
-None currently flagged. When a requirement here cannot be resolved without a product
+1. Seed is not reproducible: `NoDuplicateBedRepair` uses the global `np.random`, so `SolverConfig.seed` does not fix the front. Needs a product decision before any fix (CEO rule: no behaviour change in the SDD step).
+2. With the demo cap of 5 transfers and a small run (pop 40, 15 generations), no feasible plan is found and `generate` raises. The dashboard default budget is larger; not re-checked here.
+3. Brand findings in `src/ui/dashboard.py` and the missing wordmark wait for a design brief.
+
+Other items: none. When a requirement here cannot be resolved without a product
 decision (e.g. new objective definition, new constraint type, encoding change), add a
 row under this section instead of guessing, and escalate to the user.
 
