@@ -106,7 +106,7 @@ Statuses: `DONE` | `PARTIAL` | `MISSING` | `DRIFT` (implemented but disagrees wi
 
 ## Open Items / Ambiguities
 
-1. Seed is not reproducible: `NoDuplicateBedRepair` uses the global `np.random`, so `SolverConfig.seed` does not fix the front. Needs a product decision before any fix (CEO rule: no behaviour change in the SDD step).
+1. Seed reproducibility (fixed): `NoDuplicateBedRepair` now uses the seeded Generator of the run, so `SolverConfig.seed` fixes the front. A test checks same seed gives the same front and a different seed gives a different one.
 2. With the demo cap of 5 transfers and a small run (pop 40, 15 generations), no feasible plan is found and `generate` raises. The dashboard default budget is larger; not re-checked here.
 3. Brand findings in `src/ui/dashboard.py` and the missing wordmark wait for a design brief.
 
