@@ -5,7 +5,9 @@ primaryColor = "#008080"
 backgroundColor = "#FDFBF7"
 secondaryBackgroundColor = "#FFFFFF"
 textColor = "#17242B"
-font = "sans serif"
+font = "Plus Jakarta Sans:https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap, Segoe UI, system-ui, sans-serif"
+baseRadius = "10px"
+buttonRadius = "999px"
 
 [client]
 toolbarMode = "minimal"

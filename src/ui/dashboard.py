@@ -92,6 +92,16 @@ st.markdown(
       .mm-brandline {{ font-weight: 800; font-size: 1.15rem; letter-spacing: -0.03em; margin: 0; color: {_text}; }}
       .mm-brandline i {{ display: inline-block; width: 0.25em; height: 0.25em; margin-left: 2px; background: #008080; }}
 
+      .stApp, .stApp p, .stApp label, .stApp h1, .stApp h2, .stApp h3, .stApp li {{ font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif; }}
+      [data-testid="stSliderTickBar"], [data-testid="stSliderTickBar"] * {{ color: {_text} !important; }}
+      label:has(input[type="checkbox"]:focus-visible) {{ outline: 3px solid #008080; outline-offset: 3px; border-radius: var(--mm-radius-small); }}
+      .mm-notice {{
+        background: {_surface}; border: 1px solid {_border}; border-left: 3px solid {_C["accent"]};
+        border-radius: var(--mm-radius-card); padding: 12px 18px; margin: 8px 0;
+        color: {_text}; font-size: 0.95em; line-height: 1.5;
+      }}
+      .mm-notice b {{ font-weight: 800; letter-spacing: 0.04em; }}
+      .mm-notice.urgent {{ border-left-width: 8px; border-color: {_text}; font-weight: 800; }}
       .metric-box {{
         background: {_surface}; border: 1px solid {_border};
         border-radius: var(--mm-radius-card); padding: 12px 18px; text-align: center;
@@ -116,6 +126,13 @@ st.markdown(
     """,
     unsafe_allow_html=True,
 )
+
+def _notice(text: str, urgent: bool = False) -> None:
+    """Brand notice box. Urgent = heavy weight, thick slate rule, no red."""
+    import html as _html
+    cls = "mm-notice urgent" if urgent else "mm-notice"
+    st.markdown(f"<div class='{cls}' role='status'>{_html.escape(text)}</div>", unsafe_allow_html=True)
+
 
 # ---------------------------------------------------------------------------
 # Data loading
@@ -229,8 +246,8 @@ def _build_density_heatmap(
         plot_bgcolor=_C["surface"],
         margin=dict(l=20, r=20, t=45, b=20),
         height=400,
-        xaxis=dict(tickfont=dict(size=11)),
-        yaxis=dict(tickfont=dict(size=11)),
+        xaxis=dict(tickfont=dict(size=11, color=_C["text"])),
+        yaxis=dict(tickfont=dict(size=11, color=_C["text"])),
     )
     return fig
 
@@ -644,9 +661,10 @@ with st.sidebar:
 if surge_mode:
     effective_penalties: dict[str, int] = {k: 1 for k in BASE_PENALTIES}
     effective_cap: int = len(_patients)
-    st.error(
+    _notice(
         "EMERGENCY DEPARTMENT SURGE MODE ACTIVE -- Clinical Home penalties suppressed. "
         "All transfers permitted. Capacity Throughput is the priority objective.",
+        urgent=True,
     )
 else:
     effective_penalties = {
@@ -778,9 +796,10 @@ with cap5:
     )
 
 if surge_active:
-    st.error(
+    _notice(
         f"SURGE PROTOCOL ACTIVE -- {overflow_used} overflow bed(s) occupied "
         "in the recommended plan. Escalate to Nursing Supervisor.",
+        urgent=True,
     )
 
 # Discharge forecast row -- only rendered when discharge data is entered
@@ -825,7 +844,7 @@ if confirmed_discharges > 0 or estimated_discharges > 0:
             help="Beds likely empty by next shift. Included in Projected Available.",
         )
     if use_projected and n_confirmed > 0:
-        st.info(
+        _notice(
             f"Pre-Assignment Mode: {n_confirmed} confirmed-discharge patient(s) "
             "removed from the optimisation. Their beds are available for "
             "incoming admissions in the plan below.",
@@ -1010,7 +1029,7 @@ if plan.actions:
         height=min(400, 42 + 36 * len(records)),
     )
 else:
-    st.info("No directives for this solution. All patients are optimally placed.")
+    _notice("No directives for this solution. All patients are optimally placed.")
 
 # ---------------------------------------------------------------------------
 # Export

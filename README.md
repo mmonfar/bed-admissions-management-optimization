@@ -56,7 +56,6 @@ src/
   ui/
     dashboard.py         Streamlit command center
 
-brand_style.css          mmonfar brand identity (cream / slate / teal)
 remotion-video/          45-50s NSGA-II explainer video (React + Remotion + Three.js)
 ```
 
