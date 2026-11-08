@@ -9,6 +9,7 @@ import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 
+from src.ui.callout import callout_words
 from src.engine.directives import DirectiveGenerator, find_knee_point
 from src.engine.models import Bed, Patient
 from src.engine.problem import AnchorMap, WardAssignmentProblem
@@ -876,11 +877,12 @@ hold_note = (
     else ""
 )
 
+_callout_label, _callout_verb = callout_words(selected_idx, knee_idx)
 st.markdown(
     f"<div class='narrative-box'>"
-    f"<strong>Recommended Plan (Solution #{selected_idx}):</strong> "
+    f"<strong>{_callout_label}</strong> "
     f"To achieve <strong>{alignment_pct:.0f}% Clinical Home Alignment</strong>, "
-    f"the system recommends <strong>{plan.n_moves} patient transfer(s)</strong>, "
+    f"{_callout_verb} <strong>{plan.n_moves} patient transfer(s)</strong>, "
     f"{workload_status}."
     f"{hold_note}"
     f"{alert_note}"
