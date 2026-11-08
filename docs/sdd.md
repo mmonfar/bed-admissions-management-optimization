@@ -100,7 +100,7 @@ Statuses: `DONE` | `PARTIAL` | `MISSING` | `DRIFT` (implemented but disagrees wi
 |---|---|---|---|
 | 45-50s composition, 1920x1080 @ 30fps | `Root.tsx` registers correct duration/fps | DONE | see [project_remotion_video](../../.claude memory) |
 | Conflict / Calculation / CTA sequence | 0-10s / 10-40s / 40-50s per PROJECT.md timing table | DONE | |
-| Brand identity | Cream/anthracite/teal, Inter + JetBrains Mono | DONE | matches `brand_style.css` |
+| Brand identity | Cream/slate/teal, Plus Jakarta Sans + Space Grotesk | DONE | local palette in `src/ui/dashboard.py` |
 
 ---
 

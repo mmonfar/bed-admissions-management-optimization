@@ -22,26 +22,26 @@ from src.utils.mock_data import (
 )
 
 # ---------------------------------------------------------------------------
-# Colour palette -- brand: Anthracite #36454F / Teal #008080 / Inter
+# Colour palette -- mmonfar brand: cream ground, slate text, one teal accent.
+# State is carried by words, weight and marker, never by colour alone.
 # ---------------------------------------------------------------------------
 _C = {
-    "bg":       "#0E1117",
-    "surface":  "#1A2230",
-    "border":   "#36454F",  # brand anthracite
-    "muted":    "#7A8EA0",
-    "text":     "#E0E4F0",
-    "accent":   "#008080",  # brand teal
-    "move":     "#4A9EFF",
-    "hold":     "#20B2AA",  # lighter brand teal (4.5:1 text on the dark page)
-    "alert":    "#FF4B4B",
-    "pareto":   "#4D5375",
-    "selected": "#20B2AA",  # lighter teal
-    "surge":    "#FF4B4B",
-    "grade_a":  "#00C851",
-    "grade_b":  "#7BC67E",
-    "grade_c":  "#FFB400",
-    "grade_d":  "#FF8800",
-    "grade_f":  "#FF4B4B",
+    "bg":       "#FDFBF7",
+    "surface":  "#FFFFFF",
+    "border":   "rgba(23,36,43,.16)",
+    "muted":    "rgba(23,36,43,.70)",
+    "text":     "#17242B",
+    "accent":   "#008080",
+    "move":     "#008080",
+    "hold":     "rgba(23,36,43,.70)",
+    "alert":    "#17242B",
+    "pareto":   "rgba(23,36,43,.35)",
+    "selected": "#008080",
+    "grade_a":  "#008080",
+    "grade_b":  "#008080",
+    "grade_c":  "#008080",
+    "grade_d":  "#17242B",
+    "grade_f":  "#17242B",
 }
 
 # Operational term map (label, tooltip)
@@ -81,20 +81,24 @@ _bg = _C["bg"]
 st.markdown(
     f"""
     <style>
-      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+      @import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap");
 
-      /* brand: Anthracite #36454F / Teal #008080 / Inter */
+      :root {{
+        --mm-radius-card: 10px; --mm-radius-dialog: 12px;
+        --mm-radius-small: 6px; --mm-radius-pill: 999px;
+      }}
       /* Apply font via inheritance only -- wildcard would clobber Material Icons ligatures */
-      .stApp {{ font-family: 'Inter', sans-serif; background-color: {_bg}; }}
-      code {{ font-family: "Courier New", monospace; font-size:0.875em; }}
+      .stApp {{ font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif; background-color: {_bg}; }}
+      .mm-brandline {{ font-weight: 800; font-size: 1.15rem; letter-spacing: -0.03em; margin: 0; color: {_text}; }}
+      .mm-brandline i {{ display: inline-block; width: 0.25em; height: 0.25em; margin-left: 2px; background: #008080; }}
 
       .metric-box {{
         background: {_surface}; border: 1px solid {_border};
-        border-radius: 6px; padding: 12px 18px; text-align: center;
+        border-radius: var(--mm-radius-card); padding: 12px 18px; text-align: center;
         cursor: default;
       }}
       .metric-label {{
-        color: {_muted}; font-size:0.875em;
+        color: {_muted}; font-size:0.875em; font-family: 'Space Grotesk', 'Segoe UI', system-ui, sans-serif;
         text-transform: uppercase; letter-spacing: 0.08em;
       }}
       .metric-value {{ color: {_text}; font-size: 1.6em; font-weight: 600; }}
@@ -105,33 +109,8 @@ st.markdown(
       }}
       .narrative-box {{
         background: {_surface}; border-left: 3px solid {_C["accent"]};
-        border-radius: 0 6px 6px 0; padding: 12px 18px;
+        border-radius: var(--mm-radius-card); padding: 12px 18px;
         color: {_text}; font-size: 0.92em; line-height: 1.6;
-      }}
-
-      /* brand-style.css classes */
-      .brand-v1 {{
-        display: inline-flex;
-        flex-direction: column;
-        align-items: center;
-        font-family: 'Inter', sans-serif;
-      }}
-      .brand-v1 .name {{
-        color: #36454F;
-        font-size: 48px;
-        font-weight: 800;
-        letter-spacing: -1.5px;
-        margin-bottom: 5px;
-        border-bottom: 2px solid #36454F;
-        padding-bottom: 4px;
-      }}
-      .brand-v1 .subtitle {{
-        color: #008080;
-        font-size: 14px;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 6px;
-        margin-top: 5px;
       }}
     </style>
     """,
@@ -230,7 +209,7 @@ def _build_density_heatmap(
             z=matrix,
             x=ward_labels,
             y=specialties,
-            colorscale=[[0, _C["surface"]], [0.5, "#2255AA"], [1, _C["accent"]]],
+            colorscale=[[0, _C["surface"]], [0.5, "#ACD4D1"], [1, "#60AFAD"]],
             showscale=True,
             text=matrix,
             texttemplate="%{text}",
@@ -244,7 +223,8 @@ def _build_density_heatmap(
             text="Clinical Home Density by Ward",
             font=dict(color=_C["text"], size=14),
         ),
-        template="plotly_dark",
+        template="plotly_white",
+        font=dict(color="#17242B"),
         paper_bgcolor=_C["surface"],
         plot_bgcolor=_C["surface"],
         margin=dict(l=20, r=20, t=45, b=20),
@@ -267,7 +247,7 @@ def _build_pareto_scatter(
     sizes[knee_idx] = 14
     if selected_idx != knee_idx:
         colors[selected_idx] = _C["selected"]
-        sizes[selected_idx] = 12
+        sizes[selected_idx] = 18
 
     hover = [
         (
@@ -293,7 +273,8 @@ def _build_pareto_scatter(
     )
     fig.update_layout(
         title=dict(text="Trade-off Space (Pareto Front)", font=dict(color=_C["text"], size=14)),
-        template="plotly_dark",
+        template="plotly_white",
+        font=dict(color="#17242B"),
         paper_bgcolor=_C["surface"],
         scene=dict(
             xaxis=dict(title=dict(text="Home Alignment", font=dict(size=11))),
@@ -313,7 +294,8 @@ def _style_action_table(df: pd.DataFrame) -> pd.io.formats.style.Styler:
 
     def _type_color(val: str) -> str:
         c = color_map.get(val, _C["text"])
-        return f"color: {c}; font-weight: 700"
+        weight = 800 if val == "ALERT" else 700
+        return f"color: {c}; font-weight: {weight}"
 
     return (
         df.style
@@ -360,6 +342,10 @@ def _metric_html(
 # Page header
 # ---------------------------------------------------------------------------
 
+st.markdown(
+    '<p class="mm-brandline">mmonfar<i aria-hidden="true"></i></p>',
+    unsafe_allow_html=True,
+)
 st.markdown(
     f"<h2 style='color:{_C['text']}; margin-bottom:0;'>Clinical Bed Command Center</h2>"
     f"<p style='color:{_C['muted']}; margin-top:4px; font-size:0.875em;'>"
@@ -558,7 +544,7 @@ with st.sidebar:
         ) -> str:
             return (
                 f"<div style='background:{_C['surface']};border:1px solid {_C['border']};"
-                f"border-left:3px solid {color};border-radius:0 6px 6px 0;"
+                f"border-left:3px solid {color};border-radius:var(--mm-radius-card);"
                 f"padding:10px 12px;margin-bottom:10px;'>"
                 f"<div style='color:{color};font-size:0.875em;font-weight:700;"
                 f"text-transform:uppercase;letter-spacing:0.06em;"
@@ -785,7 +771,8 @@ with cap5:
         f"optimisation objectives at the recommended solution.'>"
         f"<div class='metric-label'>Operational Health</div>"
         f"<div class='grade-badge' style='color:{grade_color};'>{grade}</div>"
-        f"<div class='metric-note'>{grade_desc}</div>"
+        f"<div class='metric-note' style='font-weight:{800 if grade in ('D', 'F') else 400};"
+        f"color:{_C['text'] if grade in ('D', 'F') else _C['muted']};'>{grade_desc}</div>"
         f"</div>",
         unsafe_allow_html=True,
     )
@@ -909,8 +896,8 @@ with col_pareto:
 st.markdown(
     f"<p style='color:{_C['muted']}; font-size:0.875em; margin-bottom:4px;'>"
     f"Pareto front: {n_solutions} non-dominated solutions. "
-    f"Gold marker = recommended (sol #{knee_idx}). "
-    f"Cyan = selected.</p>",
+    f"Large teal dot = recommended (sol #{knee_idx}). "
+    f"Largest teal dot = selected.</p>",
     unsafe_allow_html=True,
 )
 
@@ -983,19 +970,19 @@ dir_col1, dir_col2, dir_col3 = st.columns(3)
 with dir_col1:
     st.markdown(
         f"<div style='color:{_C['move']};font-size:1.1em;font-weight:700;'>"
-        f"{plan.n_moves} MOVE</div>",
+        f"&#9679; {plan.n_moves} MOVE</div>",
         unsafe_allow_html=True,
     )
 with dir_col2:
     st.markdown(
         f"<div style='color:{_C['hold']};font-size:1.1em;font-weight:700;'>"
-        f"{plan.n_holds} HOLD</div>",
+        f"&#9632; {plan.n_holds} HOLD</div>",
         unsafe_allow_html=True,
     )
 with dir_col3:
     st.markdown(
-        f"<div style='color:{_C['alert']};font-size:1.1em;font-weight:700;'>"
-        f"{plan.n_alerts} ALERT</div>",
+        f"<div style='color:{_C['alert']};font-size:1.3em;font-weight:800;'>"
+        f"&#9670; {plan.n_alerts} ALERT</div>",
         unsafe_allow_html=True,
     )
 

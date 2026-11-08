@@ -1,11 +1,10 @@
-# The dashboard is designed for a dark page. Without this, a light browser theme
-# makes the sidebar headings pale text on a pale background (unreadable).
+# Light mmonfar theme: cream ground, slate text, teal accent.
 [theme]
-base = "dark"
+base = "light"
 primaryColor = "#008080"
-backgroundColor = "#0E1117"
-secondaryBackgroundColor = "#1A2230"
-textColor = "#E0E4F0"
+backgroundColor = "#FDFBF7"
+secondaryBackgroundColor = "#FFFFFF"
+textColor = "#17242B"
 font = "sans serif"
 
 [client]

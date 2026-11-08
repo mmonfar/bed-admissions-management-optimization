@@ -56,7 +56,7 @@ src/
   ui/
     dashboard.py         Streamlit command center
 
-brand_style.css          mm.farina brand identity (Anthracite / Teal / Inter)
+brand_style.css          mmonfar brand identity (cream / slate / teal)
 remotion-video/          45-50s NSGA-II explainer video (React + Remotion + Three.js)
 ```
 
@@ -146,7 +146,7 @@ Runtime overrides are available from the dashboard sidebar (aggression multiplie
 
 ## Brand
 
-Anthracite `#36454F` / Teal `#008080` / Inter (body) / JetBrains Mono (code). Defined in `brand_style.css` and mirrored in `src/ui/dashboard.py` and `remotion-video/src/constants.ts`.
+Cream `#FDFBF7` ground / slate `#17242B` text / teal `#008080` accent / Plus Jakarta Sans (body) / Space Grotesk (labels). Defined locally in `src/ui/dashboard.py` and `.streamlit/config.toml`.
 
 ## Licence
 
