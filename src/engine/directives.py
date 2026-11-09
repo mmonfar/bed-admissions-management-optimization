@@ -4,7 +4,6 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Optional
 
 import numpy as np
 from pymoo.core.result import Result
@@ -31,11 +30,11 @@ class Action:
     action_type: ActionType
     subspecialty: str
     reason: str
-    patient_pseudo_id: Optional[str] = None
-    from_bed_id: Optional[str] = None
-    to_bed_id: Optional[str] = None
-    clustering_benefit: Optional[float] = None
-    cmi: Optional[float] = None
+    patient_pseudo_id: str | None = None
+    from_bed_id: str | None = None
+    to_bed_id: str | None = None
+    clustering_benefit: float | None = None
+    cmi: float | None = None
 
 
 @dataclass
@@ -100,9 +99,6 @@ class DirectiveGenerator:
         self._patients = patients
         self._beds = beds
         self._penalties = penalties
-
-        n_patients = len(patients)
-        n_beds = len(beds)
 
         # Per-bed arrays (n_beds)
         self._bed_floor: np.ndarray = np.array([b.floor for b in beds], dtype=np.int32)
@@ -170,7 +166,7 @@ class DirectiveGenerator:
     def generate(
         self,
         result: Result,
-        solution_idx: Optional[int] = None,
+        solution_idx: int | None = None,
         move_cmi_threshold: float = 0.5,
     ) -> ActionPlan:
         """Build an ActionPlan from a PyMoo Result.

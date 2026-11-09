@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 from typing import Any
 
-from src.engine.directives import Action, ActionPlan, ActionType
+from src.engine.directives import Action, ActionPlan
 
 
 def to_json(plan: ActionPlan, indent: int = 2) -> str:
@@ -18,11 +18,11 @@ def to_markdown(plan: ActionPlan) -> str:
     lines: list[str] = [
         "## Action Plan",
         "",
-        f"**Pareto front size:** {plan.pareto_size}  "
+        (f"**Pareto front size:** {plan.pareto_size}  "
         f"| **Knee solution:** #{plan.knee_idx}  "
         f"| **f1 (clustering):** {plan.knee_f[0]:.1f}  "
         f"| **f2 (vacancy):** {plan.knee_f[1]:.1f}  "
-        f"| **f3 (stability):** {plan.knee_f[2]:.2f}",
+        f"| **f3 (stability):** {plan.knee_f[2]:.2f}"),
         "",
         f"**Directives:** {plan.n_moves} MOVE | {plan.n_holds} HOLD | {plan.n_alerts} ALERT",
         "",

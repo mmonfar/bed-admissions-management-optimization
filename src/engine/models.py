@@ -4,7 +4,6 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Optional
 
 
 class Wing(str, Enum):
@@ -40,7 +39,7 @@ class Patient:
     displacement_status: DisplacementStatus
     """Pre-computed acuity tier; set by the ingestion layer before optimization."""
 
-    current_bed_id: Optional[str] = field(default=None)
+    current_bed_id: str | None = field(default=None)
     """Bed ID of the patient's current physical location, or None if unassigned."""
 
     admit_urgency: float = field(default=0.0)
@@ -88,7 +87,7 @@ class Bed:
     is_overflow: bool = field(default=False)
     """True for beds designated to receive stable displacement candidates."""
 
-    def radius_penalty(self, other: "Bed", penalties: dict[str, int]) -> int:
+    def radius_penalty(self, other: Bed, penalties: dict[str, int]) -> int:
         """Return the placement penalty between this bed and a patient's anchor bed.
 
         Penalty ladder (from settings.yaml):

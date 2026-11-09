@@ -9,14 +9,13 @@ import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 
-from src.ui.callout import callout_words
 from src.engine.directives import DirectiveGenerator, find_knee_point
 from src.engine.models import Bed, Patient
 from src.engine.problem import AnchorMap, WardAssignmentProblem
 from src.engine.solver import SolverConfig, run_optimization
+from src.ui.callout import callout_words
 from src.utils.exporters import to_json, to_markdown
 from src.utils.mock_data import (
-    ANCHOR_MAP,
     BASE_COST_PER_CMI,
     BASE_PENALTIES,
     make_mock_scenario,
@@ -49,18 +48,18 @@ _C = {
 _OBJ = {
     "f1": (
         "Clinical Home Alignment",
-        "Measures how close patients are to their specialized clinical teams. "
-        "Higher alignment reduces staff travel time and improves patient safety.",
+        ("Measures how close patients are to their specialized clinical teams. "
+         "Higher alignment reduces staff travel time and improves patient safety."),
     ),
     "f2": (
         "Capacity Throughput",
-        "Optimizes bed availability to minimize Emergency Department boarding "
-        "and maximize intake. Lower vacancy gap = faster admissions.",
+        ("Optimizes bed availability to minimize Emergency Department boarding "
+         "and maximize intake. Lower vacancy gap = faster admissions."),
     ),
     "f3": (
         "Nursing Workload Protection",
-        "Prevents unnecessary patient transfers to protect nursing bandwidth "
-        "and reduce medication-reconciliation risk from mid-shift moves.",
+        ("Prevents unnecessary patient transfers to protect nursing bandwidth "
+         "and reduce medication-reconciliation risk from mid-shift moves."),
     ),
 }
 
@@ -237,18 +236,18 @@ def _build_density_heatmap(
         )
     )
     fig.update_layout(
-        title=dict(
-            text="Clinical Home Density by Ward",
-            font=dict(color=_C["text"], size=14),
-        ),
+        title={
+            "text": "Clinical Home Density by Ward",
+            "font": {"color": _C["text"], "size": 14},
+        },
         template="plotly_white",
-        font=dict(color="#17242B"),
+        font={"color": "#17242B"},
         paper_bgcolor=_C["surface"],
         plot_bgcolor=_C["surface"],
-        margin=dict(l=20, r=20, t=45, b=20),
+        margin={"l": 20, "r": 20, "t": 45, "b": 20},
         height=400,
-        xaxis=dict(tickfont=dict(size=11, color=_C["text"])),
-        yaxis=dict(tickfont=dict(size=11, color=_C["text"])),
+        xaxis={"tickfont": {"size": 11, "color": _C["text"]}},
+        yaxis={"tickfont": {"size": 11, "color": _C["text"]}},
     )
     return fig
 
@@ -284,24 +283,24 @@ def _build_pareto_scatter(
             y=F[:, 1],
             z=F[:, 2],
             mode="markers",
-            marker=dict(color=colors, size=sizes, opacity=0.85),
+            marker={"color": colors, "size": sizes, "opacity": 0.85},
             text=hover,
             hovertemplate="%{text}<extra></extra>",
         )
     )
     fig.update_layout(
-        title=dict(text="Trade-off Space (Pareto Front)", font=dict(color=_C["text"], size=14)),
+        title={"text": "Trade-off Space (Pareto Front)", "font": {"color": _C["text"], "size": 14}},
         template="plotly_white",
-        font=dict(color="#17242B"),
+        font={"color": "#17242B"},
         paper_bgcolor=_C["surface"],
-        scene=dict(
-            xaxis=dict(title=dict(text="Home Alignment", font=dict(size=11))),
-            yaxis=dict(title=dict(text="Throughput",     font=dict(size=11))),
-            zaxis=dict(title=dict(text="Workload Risk",  font=dict(size=11))),
-            bgcolor=_C["surface"],
-            aspectmode="cube",
-        ),
-        margin=dict(l=0, r=0, t=45, b=0),
+        scene={
+            "xaxis": {"title": {"text": "Home Alignment", "font": {"size": 11}}},
+            "yaxis": {"title": {"text": "Throughput",     "font": {"size": 11}}},
+            "zaxis": {"title": {"text": "Workload Risk",  "font": {"size": 11}}},
+            "bgcolor": _C["surface"],
+            "aspectmode": "cube",
+        },
+        margin={"l": 0, "r": 0, "t": 45, "b": 0},
         height=400,
     )
     return fig

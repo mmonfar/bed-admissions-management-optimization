@@ -8,9 +8,9 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from src.engine.problem import WardAssignmentProblem  # noqa: E402
-from src.engine.solver import SolverConfig, run_optimization  # noqa: E402
-from src.utils.mock_data import make_mock_scenario  # noqa: E402
+from src.engine.problem import WardAssignmentProblem
+from src.engine.solver import SolverConfig, run_optimization
+from src.utils.mock_data import make_mock_scenario
 
 SMALL_CFG = SolverConfig(pop_size=40, n_gen=15, seed=7)
 # Cap 20 = no real limit; the small run finds no feasible plan at the demo cap of 5.

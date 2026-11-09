@@ -8,7 +8,12 @@ from src.engine.directives import Action, ActionPlan, ActionType
 from src.engine.models import Bed, DisplacementStatus, Patient, Wing
 from src.engine.problem import WardAssignmentProblem
 from src.utils.exporters import to_json, to_markdown
-from src.utils.sanitizer import PATIENT_PHI_FIELDS, mask_string, pseudonymize, sanitize_dict
+from src.utils.sanitizer import (
+    PATIENT_PHI_FIELDS,
+    mask_string,
+    pseudonymize,
+    sanitize_dict,
+)
 
 PEN = {"same_floor": 1, "diff_floor": 5, "diff_wing": 10}
 
